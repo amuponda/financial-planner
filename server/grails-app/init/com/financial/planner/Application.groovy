@@ -1,4 +1,4 @@
-package financial.planner
+package com.financial.planner
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
