@@ -1,11 +1,13 @@
 package com.financial.planner
 
 import grails.gorm.transactions.Transactional
+import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.*
 import grails.converters.*
 
 import static org.springframework.http.HttpStatus.CREATED
 
+@Secured(['ROLE_USER'])
 class UserController extends RestfulController<User> {
 	static responseFormats = ['json', 'xml']
 
@@ -15,6 +17,7 @@ class UserController extends RestfulController<User> {
 
     def index() { }
 
+    @Secured(['ROLE_ANONYMOUS'])
     @Transactional
     def signup() {
         User user = createResource()

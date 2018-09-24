@@ -6,6 +6,10 @@
 
           <h4 slot="header" class="text-center">Sign Up</h4>
 
+          <div v-if="errors">
+            <span v-for="error in errors" class="text-danger">{{ error.message }}</span>
+          </div>
+
           <b-form @submit.prevent="submit" novalidate>
             <b-form-group id="nameGroup" label="Name:" label-for="name">
               <b-form-input id="name" type="text" v-model="form.firstName" name="firstName" v-validate="'required'"></b-form-input>
@@ -48,21 +52,30 @@ export default {
         firstName: '',
         lastName: '',
         username: '',
-        password: ''
+        password: '',
+        errors: null,
       }
     }
   },
   methods: {
+    resetErrors () {
+      this.errors = null
+    },
     submit () {
+      this.resetErrors()
       this.$validator.validateAll().then(result => {
         if (result) {
           http.post(signupUrl, this.form)
             .then(response => {
               // TODO should take them to email verification page
-              this.$router.push({ name: 'login' })
+              if (response.status === 201) {
+                this.$router.push({ name: 'login' })
+                return
+              }
+              this.errors = response._embedded.errors
             })
             .catch(error => {
-              console.log(error)
+              this.errors = [{ message: error.message}]
             })
         }
       })
