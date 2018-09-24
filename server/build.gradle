@@ -73,3 +73,9 @@ test {
     }
 }
 
+integrationTest {
+    testLogging {
+        showStandardStreams = true
+    }
+}
+

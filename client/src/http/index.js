@@ -1,5 +1,5 @@
 import axios from 'axios'
-import router from '@/router'
+// import router from '@/router'
 
 const http = axios.create({
   baseURL: process.env.SERVER_URL,
@@ -21,8 +21,9 @@ http.interceptors.response.use(response => {
 }, error => {
   if (error.response.status === 401) {
     sessionStorage.removeItem('fp_token')
-    router.push({ name: 'login', params: { originalUrl: router.currentRoute.params } })
+    // router.push({ name: 'login', params: { originalUrl: router.currentRoute.params } })
   }
+  return Promise.reject(error)
 })
 
 export default http

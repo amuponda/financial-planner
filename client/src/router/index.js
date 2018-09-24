@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Welcome from '@/components/Welcome'
 import Signup from '@/components/Signup'
 import Login from '@/components/Login'
+import Dashboard from '@/components/Dashboard'
 
 Vue.use(Router)
 
@@ -15,13 +16,18 @@ export default new Router({
     },
     {
       path: '/signup',
-      name: 'Signup',
+      name: 'signup',
       component: Signup
     },
     {
       path: '/login',
-      name: 'Login',
+      name: 'login',
       component: Login
+    },
+    {
+      path: '/dahsboard',
+      name: 'dashboard',
+      component: Dashboard
     }
   ]
 })

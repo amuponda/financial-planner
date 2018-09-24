@@ -7,8 +7,6 @@ import * as uiv from 'uiv'
 import VeeValidate from 'vee-validate'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
-// import './assets/css/grails.css'
-// import './assets/css/main.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.config.productionTip = false
