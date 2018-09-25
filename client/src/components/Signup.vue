@@ -7,7 +7,7 @@
           <h4 slot="header" class="text-center">Sign Up</h4>
 
           <div v-if="errors">
-            <span v-for="error in errors" class="text-danger">{{ error.message }}</span>
+            <span v-for="error in errors" :key="error.message" class="text-danger">{{ error.message }}</span>
           </div>
 
           <b-form @submit.prevent="submit" novalidate>
@@ -53,7 +53,7 @@ export default {
         lastName: '',
         username: '',
         password: '',
-        errors: null,
+        errors: null
       }
     }
   },
@@ -75,7 +75,7 @@ export default {
               this.errors = response._embedded.errors
             })
             .catch(error => {
-              this.errors = [{ message: error.message}]
+              this.errors = [{ message: error.message }]
             })
         }
       })
