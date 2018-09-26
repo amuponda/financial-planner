@@ -49,14 +49,12 @@ export default {
           http.post(loginUrl, this.form)
             .then(response => {
               sessionStorage.setItem('fp_token', response.data.access_token)
-              this.$router.push({ name: 'dashboard' })
+              let originalUrl = this.$router.currentRoute.params.originalUrl
+              this.$router.push(originalUrl ? { path: originalUrl } : { name: 'dashboard' })
             })
             .catch(error => {
-              if (error.response.status === 403) {
-                this.errorMessage = error.response.data.message
-              } else {
-                this.errorMessage = 'Authentication Failed'
-              }
+              let isForbidden = error.response.status === 403
+              this.errorMessage = isForbidden ? error.response.data.message : 'Authentication Failed'
             })
         }
       })
