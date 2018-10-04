@@ -11,11 +11,16 @@ import static org.springframework.http.HttpStatus.CREATED
 class UserController extends RestfulController<User> {
 	static responseFormats = ['json', 'xml']
 
+    def springSecurityService
+
     UserController() {
         super(User)
     }
 
-    def index() { }
+    def index() {
+        def user = User.get(springSecurityService.getPrincipal().id)
+        respond(user)
+    }
 
     @Secured(['ROLE_ANONYMOUS'])
     @Transactional

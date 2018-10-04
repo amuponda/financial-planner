@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Welcome from '@/components/Welcome'
+import Root from '@/components/Root'
 import Signup from '@/components/Signup'
 import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
@@ -9,11 +9,6 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/',
-      name: 'Welcome',
-      component: Welcome
-    },
     {
       path: '/signup',
       name: 'signup',
@@ -25,9 +20,16 @@ export default new Router({
       component: Login
     },
     {
-      path: '/dahsboard',
-      name: 'dashboard',
-      component: Dashboard
+      path: '/',
+      name: 'Root',
+      component: Root,
+      children: [
+        {
+          path: '/dashboard',
+          name: 'dashboard',
+          component: Dashboard
+        }
+      ]
     }
   ]
 })
