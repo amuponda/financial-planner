@@ -25,4 +25,8 @@ task assembleServerAndClient(dependsOn: ['copyClientResources', ':server:assembl
         logger.quiet "JAR generated at $rootDir/build/. It combines the server and client projects."
     }
 }
-task(":server:assemble").mustRunAfter(copyClientResources) 
+task(":server:assemble").mustRunAfter(copyClientResources)
+
+task stage {
+    dependsOn assembleServerAndClient
+}
