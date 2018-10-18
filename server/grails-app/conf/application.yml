@@ -98,10 +98,10 @@ environments:
     production:
         dataSource:
             driverClassName: org.mariadb.jdbc.Driver
-                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-                username: wqcri2ziqcll0su9
-                password: 'wp3sk48ewah3h5sm'
-                url: jdbc:mariadb://gmgcjwawatv599gq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/financial_planner
+            dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+            username: wqcri2ziqcll0su9
+            password: 'wp3sk48ewah3h5sm'
+            url: jdbc:mariadb://gmgcjwawatv599gq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/financial_planner
             properties:
                 jmxEnabled: true
                 initialSize: 5
