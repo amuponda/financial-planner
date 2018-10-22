@@ -22,6 +22,7 @@ class UserControllerIntSpec extends Specification{
     }
 
 
+    /*
     @Unroll("#testCase")
     def "test error handling of login attempts"() {
         setup:
@@ -45,4 +46,5 @@ class UserControllerIntSpec extends Specification{
         //'accLocked@email.com'   | 401       | "Authentication failed."          | "anything else other than bad credentials"
         //'testlogin@email.com'   | 200       | null                              | "successful login"
     }
+    */
 }

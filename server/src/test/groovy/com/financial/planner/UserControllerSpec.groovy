@@ -28,6 +28,7 @@ class UserControllerSpec extends HibernateSpec implements ControllerUnitTest<Use
         then:
         response.status == responseStatus
         response.json.id  == userId
+        if (userId) UserRole.findByUser(User.get(userId)) != null
 
         where:
         email               | responseStatus    | userId    | testCase
