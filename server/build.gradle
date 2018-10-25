@@ -12,7 +12,6 @@ buildscript {
     }
 }
 
-version "0.1"
 group "financial.planner"
 
 apply plugin:"eclipse"
