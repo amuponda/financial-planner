@@ -21,5 +21,14 @@ pipeline {
 				sh './gradlew :server:test'
 			}
 		}
+
+		stage('deploy') {
+			when {
+				branch 'release'
+			}
+			steps {
+				sh './gradlew deployHeroku'
+			}
+		}
 	}
 }
