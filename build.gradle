@@ -12,7 +12,7 @@ allprojects {
 }
 
 heroku {
-    appName = "floating-shore-99282"
+    appName = "arcane-waters-80691"
     jdkVersion = "1.8"
     buildpacks = ["heroku/jvm"]
     processTypes(web: "java -Dserver.port=\$PORT \$JAVA_OPTS -jar build/server-${project.version}.jar".toString())
