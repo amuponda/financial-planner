@@ -1,16 +1,25 @@
 #!groovy
 
-node {
-	stage('checkout') {
-		checkout scm
-	}
+pipeline {
+	agent any
+	stages {
+		stage('checkout') {
+			steps {
+				checkout scm
+			}
+		}
 
-	stage('check tools') {
-		sh 'pwd'
-		sh './gradlew clean'
-	}
+		stage('check tools') {
+			steps {
+				sh 'pwd'
+				sh './gradlew clean'
+			}
+		}
 
-	stage('test') {
-		sh './gradlew :server:test'
+		stage('test') {
+			steps {
+				sh './gradlew :server:test'
+			}
+		}
 	}
 }
