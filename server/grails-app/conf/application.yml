@@ -97,6 +97,7 @@ environments:
             url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
     production:
         dataSource:
+            dbCreate: update
             driverClassName: org.mariadb.jdbc.Driver
             dialect: org.hibernate.dialect.MySQL5InnoDBDialect
             username: wqcri2ziqcll0su9
