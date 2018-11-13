@@ -12,6 +12,7 @@ class UrlMappings {
         }
         "/api/signup"(controller: 'user', action: 'signup')
         "/api/user"(controller: 'user', action: 'index')
+        "/api/account/create"(controller: 'account', action: 'save')
         "500"(view: '/error')
         "404"(view: '/notFound')
     }

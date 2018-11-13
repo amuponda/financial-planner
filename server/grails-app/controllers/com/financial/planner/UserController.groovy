@@ -18,8 +18,7 @@ class UserController extends RestfulController<User> {
     }
 
     def index() {
-        def user = User.get(springSecurityService.getPrincipal().id)
-        respond(user)
+        respond(springSecurityService.getCurrentUser())
     }
 
     @Secured(['ROLE_ANONYMOUS'])
