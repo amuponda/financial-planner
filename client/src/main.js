@@ -6,15 +6,12 @@ import router from './router'
 import store from './vuex/store'
 import * as uiv from 'uiv'
 import VeeValidate from 'vee-validate'
-import BootstrapVue from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import './assets/css/bootstrap.css'
 
 Vue.config.productionTip = false
 
 Vue.use(uiv)
 Vue.use(VeeValidate)
-Vue.use(BootstrapVue)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
