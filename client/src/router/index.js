@@ -15,15 +15,15 @@ export default new Router({
       component: Signup
     },
     {
-      path: '/login',
-      name: 'login',
-      component: Login
-    },
-    {
       path: '/',
       name: 'Root',
       component: Root,
       children: [
+        {
+          path: '/login',
+          name: 'login',
+          component: Login
+        },
         {
           path: '/dashboard',
           name: 'dashboard',

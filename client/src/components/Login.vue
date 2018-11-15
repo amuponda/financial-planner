@@ -1,30 +1,30 @@
 <template>
-  <b-container>
-    <b-row>
-      <b-col sm="4" offset-sm="4">
-        <b-card border-variant="primary">
+  <div class="container mt-5">
+    <div class="row justify-content-md-center">
+      <div class="col-sm-4">
+        <div class="card text-center border-0">
+          <div class="card-body">
+            <h5 class="card-title text-center">Sign In</h5>
+            <span v-show="errorMessage" class="text-danger">{{errorMessage}}</span>
 
-          <h4 slot="header" class="text-center">Log In</h4>
+            <form @submit.prevent="submit" novalidate>
+              <div class="form-group">
+                <input id="email" type="email" v-model="form.username" name="username" v-validate="'required|email'" class="form-control" placeholder="Email"/>
+                <p v-show="errors.has('username')" class="text-danger">{{ errors.first('username') }}</p>
+              </div>
 
-          <span v-show="errorMessage" class="text-danger">{{errorMessage}}</span>
+              <div class="form-group">
+                <input id="password" type="password" v-model="form.password" name="password" v-validate="'required'" class="form-control" placeholder="Password"/>
+                <p v-show="errors.has('password')" class="text-danger">{{ errors.first('password') }}</p>
+              </div>
 
-          <b-form @submit.prevent="submit" novalidate>
-            <b-form-group id="emailGroup" label="Email:" label-for="email">
-              <b-form-input id="email" type="email" v-model="form.username" name="username" v-validate="'required|email'"></b-form-input>
-              <p v-show="errors.has('username')" class="text-danger">{{ errors.first('username') }}</p>
-            </b-form-group>
-
-            <b-form-group id="passwordGroup" label="Password:" label-for="password">
-              <b-form-input id="password" type="password" v-model="form.password" name="password" v-validate="'required'"></b-form-input>
-              <p v-show="errors.has('password')" class="text-danger">{{ errors.first('password') }}</p>
-            </b-form-group>
-
-            <b-button type="submit" variant="primary">Sign in</b-button>
-          </b-form>
-        </b-card>
-      </b-col>
-    </b-row>
-  </b-container>
+              <button type="submit" class="btn btn-primary btn-sm px-5">Sign In</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -64,5 +64,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .form-control {
+    height: calc(1.25rem + 14px);;
+  }
 </style>
