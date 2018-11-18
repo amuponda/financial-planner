@@ -5,6 +5,7 @@ import grails.rest.*
 import grails.converters.*
 import org.springframework.http.HttpStatus
 
+@Secured(['ROLE_USER'])
 class AccountController extends RestfulController<Account> {
 
     static responseFormats = ['json', 'xml']
@@ -17,11 +18,10 @@ class AccountController extends RestfulController<Account> {
 
     def index() { }
 
-    @Secured(['ROLE_USER'])
     def create() {
         User user = springSecurityService.getCurrentUser()
         Account account = new Account(name: params.name, user: user)
-        if (account.hasErrors()) {
+        if (!account.validate()) {
             respond account.errors
             return
         }

@@ -4,6 +4,7 @@ import grails.buildtestdata.TestDataBuilder
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.test.hibernate.HibernateSpec
 import grails.testing.web.controllers.ControllerUnitTest
+import spock.lang.Unroll
 
 class AccountControllerSpec extends HibernateSpec implements ControllerUnitTest<AccountController>, TestDataBuilder {
 
@@ -13,6 +14,7 @@ class AccountControllerSpec extends HibernateSpec implements ControllerUnitTest<
     def cleanup() {
     }
 
+    @Unroll("Account name: #name")
     void "create a new back account"() {
         setup:
         User user = build(User)
@@ -22,10 +24,15 @@ class AccountControllerSpec extends HibernateSpec implements ControllerUnitTest<
 
         when: "request to create new account is made"
         request.method = 'POST'
-        params['name'] = 'CBA Smart Access'
+        params['name'] = name
         controller.create()
 
         then:
-        response.status == 201
+        response.status == status
+
+        where:
+        name                || status
+        'CBA Smart Access'  || 201
+        ''                  || 422
     }
 }
