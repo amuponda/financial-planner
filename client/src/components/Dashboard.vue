@@ -6,12 +6,14 @@
           <div class="card-body">
             <h5 class="card-title">Accounts</h5>
             <button type="button" class="btn btn-primary btn-sm" @click="showModal">Add Account</button>
-            <ul v-for="account in accounts" :key="account.name">
-              <li>
-                <span>{{ account.name }}</span>
-                <span>{{ account.balance }}</span>
-              </li>
-            </ul>
+            <table class="table table-sm mt-3">
+              <tbody>
+                <tr v-for="account in accounts" :key="account.name">
+                  <td>{{ account.name }}</td>
+                  <td class="text-right font-weight-bold">{{ account.balance | currency }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
