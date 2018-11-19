@@ -28,4 +28,9 @@ class AccountController extends RestfulController<Account> {
         saveResource(account)
         respond(account, status: HttpStatus.CREATED)
     }
+
+    def userAccounts() {
+        List<Account> accounts = Account.findAllByUser(springSecurityService.currentUser)
+        respond(accounts)
+    }
 }

@@ -7,7 +7,10 @@
             <h5 class="card-title">Accounts</h5>
             <button type="button" class="btn btn-primary btn-sm" @click="showModal">Add Account</button>
             <ul v-for="account in accounts" :key="account.name">
-              <li>{{ account.name }}</li>
+              <li>
+                <span>{{ account.name }}</span>
+                <span>{{ account.balance }}</span>
+              </li>
             </ul>
           </div>
         </div>
@@ -53,6 +56,11 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'dashboard',
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.$store.dispatch('fetchAccounts')
+    })
+  },
   data () {
     return {
       isModal: false,

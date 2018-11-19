@@ -23,7 +23,7 @@
             <a class="nav-link" href="#">Bills</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Sign out</a>
+            <a class="nav-link" href="#" @click.prevent="signOut">Sign out</a>
           </li>
         </ul>
       </div>
@@ -37,8 +37,10 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'root',
-  created () {
-    this.$store.dispatch('fetchUser')
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.$store.dispatch('fetchUser')
+    })
   },
   methods: {
     signOut () {
