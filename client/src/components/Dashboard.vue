@@ -2,7 +2,34 @@
   <div class="container">
     <div class="row mt-5">
       <div class="col-sm-4">
+        <!-- account summary -->
         <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Summary</h5>
+            <div>
+              <small>
+                <strong>This Month</strong><br>
+              </small>
+              <small>
+                <strong>Spent:&nbsp;</strong>
+              </small>
+              <strong>$0.00</strong><br>
+              <small>
+                <strong>Earned:&nbsp;</strong>
+              </small>
+              <strong>$0.00</strong>
+            </div>
+            <div>
+              <small>
+                <strong>Total Balance:</strong>
+              </small>
+              <strong class="text-success">$0.00</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- account list -->
+        <div class="card mt-3">
           <div class="card-body">
             <h5 class="card-title">Accounts</h5>
             <button type="button" class="btn btn-primary btn-sm" @click="showModal">Add Account</button>

@@ -18,7 +18,7 @@ class AccountController extends RestfulController<Account> {
 
     def index() { }
 
-    def create() {
+    def createAccount() {
         User user = springSecurityService.getCurrentUser()
         Account account = new Account(name: params.name, user: user)
         if (!account.validate()) {
@@ -29,8 +29,12 @@ class AccountController extends RestfulController<Account> {
         respond(account, status: HttpStatus.CREATED)
     }
 
-    def userAccounts() {
+    def getUserAccounts() {
         List<Account> accounts = Account.findAllByUser(springSecurityService.currentUser)
         respond(accounts)
+    }
+
+    def createIncomeOrExpenditure() {
+
     }
 }
