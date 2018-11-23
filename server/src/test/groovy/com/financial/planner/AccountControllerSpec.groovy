@@ -14,10 +14,15 @@ class AccountControllerSpec extends HibernateSpec implements ControllerUnitTest<
     def cleanup() {
     }
 
-    @Unroll("Account name: #name")
+    List<Class> getDomainClasses() {
+        [Account]
+    }
+
+    @Unroll("Test case: #testCase")
     void "create a new back account"() {
         setup:
         User user = build(User)
+        build(Account, user: user, name: 'Already Exists')
         controller.springSecurityService = Stub(SpringSecurityService) {
             getCurrentUser() >> user
         }
@@ -25,14 +30,15 @@ class AccountControllerSpec extends HibernateSpec implements ControllerUnitTest<
         when: "request to create new account is made"
         request.method = 'POST'
         params['name'] = name
-        controller.create()
+        controller.createAccount()
 
         then:
         response.status == status
 
         where:
-        name                || status
-        'CBA Smart Access'  || 201
-        ''                  || 422
+        name                || status   || testCase
+        'CBA Smart Access'  || 201      || 'valid account name'
+        ''                  || 422      || 'account name cannot be null'
+        'Already Exists'    || 422      || 'Account names should be unique within the user context'
     }
 }

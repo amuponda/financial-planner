@@ -17,7 +17,7 @@ json {
     def resourceLink = g.link(resource:request.uri, absolute:true)
     if(errorCount == 1) {
         def error = allErrors.iterator().next()
-        message messageSource.getMessage(error, locale)
+        message g.message(error: error)
         path resourcePath
         _links {
             self {
@@ -29,7 +29,7 @@ json {
         total errorCount
         _embedded {
             errors(allErrors) { ObjectError error ->
-                message messageSource.getMessage(error, locale)
+                message g.message(error: error)
                 path resourcePath
                 _links {
                     self {

@@ -10,5 +10,6 @@ class Account {
     static hasMany = [incomeAndExpenses: IncomeAndExpenditure]
 
     static constraints = {
+        name maxSize: 50,  unique: true
     }
 }
