@@ -1,6 +1,11 @@
 import http from '@/http'
 
-import {FETCH_USER, DESTROY_USER, ADD_ACCOUNT, FETCH_ACCOUNTS} from './mutation-types'
+import {
+  FETCH_USER,
+  DESTROY_USER,
+  ADD_ACCOUNT,
+  FETCH_ACCOUNTS
+} from './mutation-types'
 
 const GET_USER_URL = '/api/user'
 const GET_ACCOUNTS_URL = '/api/accounts'
@@ -23,11 +28,16 @@ export function fetchAccounts ({ commit }) {
       commit(FETCH_ACCOUNTS, response.data)
     })
 }
-export function addAccount ({ commit }, name) {
+
+export function addAccount ({ commit, dispatch }, name) {
   http.get(CREATE_ACCOUNT_URL, {
     params: { name: name }
   })
     .then(response => {
       commit(ADD_ACCOUNT, response.data)
+      dispatch('addAlert', { text: 'account added', type: 'success' })
+    })
+    .catch(reason => {
+      dispatch('addAlert', { text: reason.response.data.message, type: 'danger' })
     })
 }

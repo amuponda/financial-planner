@@ -28,20 +28,19 @@
         </ul>
       </div>
     </nav>
+
+    <alert-messages></alert-messages>
+
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import AlertMessages from './AlertMessages'
 
 export default {
-  name: 'root',
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      vm.$store.dispatch('fetchUser')
-    })
-  },
+  name: 'Root',
   methods: {
     signOut () {
       this.$store.dispatch('obliterateUser')
@@ -51,7 +50,15 @@ export default {
   },
   computed: mapGetters({
     user: 'getUser'
-  })
+  }),
+  components: {
+    AlertMessages
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.$store.dispatch('fetchUser')
+    })
+  }
 }
 </script>
 
