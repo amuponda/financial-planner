@@ -32,7 +32,7 @@ import http from '@/http'
 const loginUrl = '/api/login'
 
 export default {
-  name: 'login',
+  name: 'Login',
   data () {
     return {
       form: {

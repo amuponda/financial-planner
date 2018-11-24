@@ -45,7 +45,7 @@ import http from '@/http'
 const signupUrl = '/api/signup'
 
 export default {
-  name: 'signup',
+  name: 'Signup',
   data () {
     return {
       form: {
