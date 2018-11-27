@@ -71,6 +71,9 @@ export default {
 </script>
 
 <style scoped>
+  .modal-dialog {
+    margin-top: 8rem;
+  }
   .modal.show {
     display: block;
     background-color: rgba(0, 0, 0, .5);
