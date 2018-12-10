@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-      <a class="navbar-brand" href="#">cashFlow</a>
+      <router-link class="navbar-brand" to="/dashboard">cashFlow</router-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -20,7 +20,7 @@
             <a class="nav-link" href="#">Income</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Bills</a>
+            <router-link class="nav-link" to="/bills">Bills</router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" @click.prevent="signOut">Sign out</a>
@@ -46,6 +46,10 @@ export default {
       this.$store.dispatch('obliterateUser')
       sessionStorage.removeItem('fp_token')
       this.$router.push({ name: 'login' })
+    },
+    init () {
+      this.$store.dispatch('fetchUser')
+      this.$store.dispatch('fetchAccounts')
     }
   },
   computed: mapGetters({
@@ -55,10 +59,34 @@ export default {
     AlertMessages
   },
   beforeRouteEnter (to, from, next) {
-    next(vm => {
-      vm.$store.dispatch('fetchUser')
-    })
+    if (sessionStorage.getItem('fp_token')) {
+      next(vm => {
+        vm.init()
+      })
+    } else if (to.name === 'login') {
+      next()
+    } else { // not logged in
+      next({
+        name: 'login',
+        params: { originalUrl: to.fullPath }
+      })
+    }
+  },
+  beforeRouteUpdate (to, from, next) {
+    if (to.name === 'login') {
+      next()
+    } else if (!this.user) {
+      console.log('initing user')
+      this.init()
+      next()
+    } else { // not logged in
+      next({
+        name: 'login',
+        params: { originalUrl: to.fullPath }
+      })
+    }
   }
+
 }
 </script>
 

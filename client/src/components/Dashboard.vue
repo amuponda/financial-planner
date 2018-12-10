@@ -82,11 +82,6 @@ export default {
     toggleModal () {
       this.showModal = !this.showModal
     }
-  },
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      vm.$store.dispatch('fetchAccounts')
-    })
   }
 }
 </script>
