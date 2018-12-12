@@ -11,11 +11,18 @@ const GET_USER_URL = '/api/user'
 const GET_ACCOUNTS_URL = '/api/accounts'
 const CREATE_ACCOUNT_URL = '/api/account/create'
 
-export function fetchUser ({ commit }) {
-  http.get(GET_USER_URL)
-    .then(response => {
-      commit(FETCH_USER, response.data)
-    })
+export function fetchUser ({ commit, dispatch }) {
+  return new Promise((resolve, reject) => {
+    http.get(GET_USER_URL)
+      .then(response => {
+        commit(FETCH_USER, response.data)
+        resolve()
+      })
+      .catch(reason => {
+        dispatch('addAlert', { text: reason.response.data.message, type: 'danger' })
+        reject(reason)
+      })
+  })
 }
 
 export function obliterateUser ({ commit }) {

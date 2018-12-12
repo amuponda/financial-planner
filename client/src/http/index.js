@@ -1,5 +1,6 @@
 import axios from 'axios'
 import router from '@/router'
+import tokenService from '../mixins/TokenService'
 
 const http = axios.create({
   baseURL: process.env.SERVER_URL,
@@ -9,7 +10,7 @@ const http = axios.create({
 })
 
 http.interceptors.request.use(config => {
-  let token = sessionStorage.getItem('fp_token')
+  let token = tokenService.getToken()
   if (token) config.headers.Authorization = 'Bearer ' + token
   return config
 }, error => {
@@ -20,7 +21,7 @@ http.interceptors.response.use(response => {
   return response
 }, error => {
   if (error.response.status === 401) {
-    sessionStorage.removeItem('fp_token')
+    tokenService.deleteToken()
     router.push({ name: 'login', params: { originalUrl: router.currentRoute.fullPath } })
   }
   return Promise.reject(error)

@@ -4,6 +4,9 @@ import Root from '@/components/Root'
 import Signup from '@/components/Signup'
 import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
+import Bills from '@/components/Bills'
+
+import tokenService from '../mixins/TokenService'
 
 Vue.use(Router)
 
@@ -22,12 +25,20 @@ export default new Router({
         {
           path: '/login',
           name: 'login',
-          component: Login
+          component: Login,
+          beforeEnter: (to, from, next) => {
+            tokenService.isLoggedIn() ? next(false) : next()
+          }
         },
         {
           path: '/dashboard',
           name: 'dashboard',
           component: Dashboard
+        },
+        {
+          path: '/bills',
+          name: 'bills',
+          component: Bills
         }
       ]
     }

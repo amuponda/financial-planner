@@ -38,28 +38,32 @@
 <script>
 import { mapGetters } from 'vuex'
 import AlertMessages from './AlertMessages'
+import tokenService from '../mixins/TokenService'
 
 export default {
   name: 'Root',
-  methods: {
-    signOut () {
-      this.$store.dispatch('obliterateUser')
-      sessionStorage.removeItem('fp_token')
-      this.$router.push({ name: 'login' })
-    },
-    init () {
-      this.$store.dispatch('fetchUser')
-      this.$store.dispatch('fetchAccounts')
-    }
-  },
   computed: mapGetters({
     user: 'getUser'
   }),
   components: {
     AlertMessages
   },
+  methods: {
+    signOut () {
+      tokenService.deleteToken()
+      this.$store.dispatch('obliterateUser')
+      this.$router.push({ name: 'login' })
+    },
+    init () {
+      if (!this.user) {
+        this.$store.dispatch('fetchUser').then(() => {
+          this.$store.dispatch('fetchAccounts')
+        })
+      }
+    }
+  },
   beforeRouteEnter (to, from, next) {
-    if (sessionStorage.getItem('fp_token')) {
+    if (tokenService.isLoggedIn()) {
       next(vm => {
         vm.init()
       })
@@ -73,11 +77,11 @@ export default {
     }
   },
   beforeRouteUpdate (to, from, next) {
-    if (to.name === 'login') {
-      next()
-    } else if (!this.user) {
-      console.log('initing user')
+    if (tokenService.isLoggedIn()) {
       this.init()
+      return next()
+    }
+    if (to.name === 'login') {
       next()
     } else { // not logged in
       next({
