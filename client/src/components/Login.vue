@@ -10,7 +10,7 @@
             <form @submit.prevent="submit" novalidate>
               <div class="form-group">
                 <input id="email" type="email" v-model="form.username" name="username" v-validate="'required|email'" class="form-control" placeholder="Email"/>
-                <p v-show="errors.has('username')" class="text-danger small mt-1">{{ errors.first('username') }}</p>
+                <p v-show="errors.has('username')" class="text-danger small mt-1 text-right">{{ errors.first('username') }}</p>
               </div>
 
               <div class="form-group">
