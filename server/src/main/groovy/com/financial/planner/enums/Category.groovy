@@ -20,6 +20,8 @@ enum Category {
     MISC('Miscellaneous'),
     CUSTOM('Custom')
 
+    private String label
+
     Category(String label) {
         this.label = label
     }
