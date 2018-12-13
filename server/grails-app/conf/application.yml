@@ -62,7 +62,9 @@ grails:
     converters:
         encoding: UTF-8
     resources:
-        pattern: /**    
+        pattern: /**
+    databinding:
+        dateFormats: 'dd/MM/yyyy'
 
 ---
 grails:
