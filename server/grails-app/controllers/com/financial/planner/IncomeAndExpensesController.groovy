@@ -15,7 +15,8 @@ class IncomeAndExpenditureController extends RestfulController<IncomeAndExpendit
         super(IncomeAndExpenditure)
     }
 
-    def createIncomeOrExpenditure() {
+    @Override
+    def create() {
         IncomeAndExpenditure iae = new IncomeAndExpenditure(params)
         if (iae.hasErrors()) {
             respond iae.errors

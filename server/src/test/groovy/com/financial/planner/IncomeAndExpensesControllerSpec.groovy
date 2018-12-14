@@ -7,9 +7,6 @@ import grails.buildtestdata.TestDataBuilder
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.test.hibernate.HibernateSpec
 import grails.testing.web.controllers.ControllerUnitTest
-import groovy.json.JsonBuilder
-import spock.lang.Ignore
-import spock.lang.Unroll
 
 class IncomeAndExpenditureControllerSpec extends HibernateSpec implements ControllerUnitTest<IncomeAndExpenditureController>,  TestDataBuilder {
 
@@ -38,7 +35,7 @@ class IncomeAndExpenditureControllerSpec extends HibernateSpec implements Contro
                     repeats: Repeats.WEEKLY, type: Type.EXPENSE]
 
         bill.each {k, v -> params[k] = v }
-        controller.createIncomeOrExpenditure()
+        controller.create()
 
         then:
         response.status == 201
@@ -48,7 +45,7 @@ class IncomeAndExpenditureControllerSpec extends HibernateSpec implements Contro
         Account notMine = build(Account, user: notMe, name: 'CBA')
         params['account.id'] = notMine.id
 
-        controller.createIncomeOrExpenditure()
+        controller.create()
 
         then: "Access is denied"
         response.status == 403
