@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus
 @Secured(['ROLE_USER'])
 class AccountController extends RestfulController<Account> {
 
-    static responseFormats = ['json', 'xml']
+    static responseFormats = ['json']
 
     def springSecurityService
 
@@ -32,9 +32,5 @@ class AccountController extends RestfulController<Account> {
     def getUserAccounts() {
         List<Account> accounts = Account.findAllByUser(springSecurityService.currentUser)
         respond(accounts)
-    }
-
-    def createIncomeOrExpenditure() {
-
     }
 }
