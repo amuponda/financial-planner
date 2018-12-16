@@ -58,6 +58,8 @@ export default {
       if (!this.user) {
         this.$store.dispatch('fetchUser').then(() => {
           this.$store.dispatch('fetchAccounts')
+          this.$store.dispatch('fetchCategories')
+          this.$store.dispatch('fetchRegularityOptions')
         })
       }
     }

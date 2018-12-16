@@ -9,7 +9,7 @@ import static org.springframework.http.HttpStatus.CREATED
 
 @Secured(['ROLE_USER'])
 class UserController extends RestfulController<User> {
-	static responseFormats = ['json', 'xml']
+	static responseFormats = ['json']
 
     def springSecurityService
 

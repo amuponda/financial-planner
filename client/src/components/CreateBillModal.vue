@@ -75,21 +75,26 @@
 <script>
 
 import dayjs from 'dayjs'
+import { mapGetters } from 'vuex'
 
 const initialData = {
   bill: {
     type: 'EXPENSE',
     account: null,
-    name: 'Test Bill', // null,
-    amount: 20, // null,
-    category: 'ENTERTAINMENT',
-    repeats: 'WEEKLY',
+    name: null,
+    amount: null,
+    category: null,
+    repeats: null,
     startDate: new Date()
   }
 }
 
 export default {
   name: 'CreateBillModal',
+  computed: mapGetters({
+    categories: 'getCategories',
+    periodicity: 'getRepeats'
+  }),
   props: {
     show: {
       type: Boolean,
@@ -102,15 +107,7 @@ export default {
   },
   data () {
     return {
-      bill: Object.assign({}, initialData.bill),
-      categories: [
-        { name: 'ENTERTAINMENT', label: 'Entertainment' },
-        { name: 'GROCERIES', label: 'Groceries' }
-      ],
-      periodicity: [
-        { name: 'ONCE_OFF', label: 'Once Off' },
-        { name: 'WEEKLY', label: 'Weekly' }
-      ]
+      bill: Object.assign({}, initialData.bill)
     }
   },
   methods: {
@@ -123,8 +120,6 @@ export default {
       this.$validator.validateAll().then(result => {
         if (result) {
           this.addBill()
-        } else {
-          console.log(JSON.stringify(this.errors))
         }
       })
     },
@@ -136,13 +131,14 @@ export default {
       params.append('repeats', this.bill.repeats)
       params.append('startDate', dayjs().format('DD/MM/YYYY'))
       params.append('amount', this.bill.amount)
-      params.append('type', 'EXPENSE')
+      params.append('type', this.bill.type)
 
       this.$store.dispatch('addBill', params).then(result => {
         console.log('done')
       })
         .catch(reason => {
-          console.log('error')
+          // handle backend errors here
+          console.error(JSON.stringify(reason))
         })
     }
   }
