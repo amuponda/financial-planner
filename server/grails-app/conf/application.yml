@@ -64,7 +64,9 @@ grails:
     resources:
         pattern: /**
     databinding:
-        dateFormats: 'dd/MM/yyyy'
+        dateFormats:
+            - dd/MM/yyyy
+            - yyyy-MM-dd
 
 ---
 grails:

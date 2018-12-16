@@ -7,7 +7,7 @@ class Account {
 
     static belongsTo = [user: User]
 
-    static hasMany = [incomeAndExpenses: IncomeAndExpenditure]
+    static hasMany = [incomeAndExpenses: IncomeAndExpenses]
 
     static constraints = {
         name maxSize: 50,  unique: true

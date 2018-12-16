@@ -14,6 +14,7 @@ class UrlMappings {
         "/api/user"(controller: 'user', action: 'index')
         "/api/account/create"(controller: 'account', action: 'createAccount')
         "/api/accounts"(controller: 'account', action: 'getUserAccounts')
+        "/api/accounts/bills/create"(controller: 'incomeAndExpenses', action: 'create')
         "500"(view: '/error')
         "404"(view: '/notFound')
     }

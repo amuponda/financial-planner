@@ -9,7 +9,7 @@ enum Category {
     HOLIDAY_AND_TRAVEL('Holiday and Travel'),
     HOME('Home'),
     HOUSEHOLD_UTILITIES('Household Utilities'),
-    INCOME('IncomeAndExpenditure'),
+    INCOME('Income'),
     INSURANCE('Insurance'),
     KIDS('Kids'),
     PETS('Pets'),

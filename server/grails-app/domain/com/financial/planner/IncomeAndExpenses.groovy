@@ -1,17 +1,27 @@
 package com.financial.planner
 
 import com.financial.planner.enums.Category
-import com.financial.planner.enums.Repeats
+import com.financial.planner.enums.Repeat
 import com.financial.planner.enums.Type
+import grails.databinding.BindUsing
 
-class IncomeAndExpenditure {
+class IncomeAndExpenses {
 
     Date startDate
     Date endDate
     String name
-    Repeats repeats
     BigDecimal amount
+    @BindUsing({obj, source ->
+        Repeat.valueOf(source['repeats'])
+    })
+    Repeat repeats
+    @BindUsing({obj, source ->
+        Category.valueOf(source['category'])
+    })
     Category category
+    @BindUsing({obj, source ->
+        Type.valueOf(source['type'])
+    })
     Type type
 
     static belongsTo = [account: Account]

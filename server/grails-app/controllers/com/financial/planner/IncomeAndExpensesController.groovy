@@ -1,23 +1,24 @@
 package com.financial.planner
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.*
-import grails.converters.*
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.http.HttpStatus
 
-class IncomeAndExpenditureController extends RestfulController<IncomeAndExpenditure> {
+@Secured(['ROLE_USER'])
+class IncomeAndExpensesController extends RestfulController<IncomeAndExpenses> {
 	static responseFormats = ['json']
 
     def springSecurityService
     def messageSource
 
-    IncomeAndExpenditureController() {
-        super(IncomeAndExpenditure)
+    IncomeAndExpensesController() {
+        super(IncomeAndExpenses)
     }
 
     @Override
     def create() {
-        IncomeAndExpenditure iae = new IncomeAndExpenditure(params)
+        IncomeAndExpenses iae = new IncomeAndExpenses(params)
         if (iae.hasErrors()) {
             respond iae.errors
         }
