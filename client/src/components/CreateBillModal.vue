@@ -41,12 +41,22 @@
                   <option :value="null">Choose category</option>
                   <option v-for="cat in categories" :key="cat.name" :value="cat.name">{{ cat.label }}</option>
                 </select>
+                <p v-show="errors.has('category')" class="text-right text-danger small mt-1">{{ errors.first('category') }}</p>
               </div>
             </div>
             <div class="form-group row">
               <label for="startDate" class="col-sm-2">Starts</label>
               <div class="col-sm-10">
-                <input v-model="bill.startDate" type="date" name="startDate" id="startDate" required v-validate class="form-control" placeholder="Starts" />
+                <datepicker
+                  v-model="bill.startDate"
+                  name="startDate"
+                  id="startDate"
+                  required
+                  v-validate
+                  placeholder="Starts"
+                  input-class="form-control"
+                  format="dd/MM/yyyy">
+                </datepicker>
                 <p v-show="errors.has('startDate')" class="text-danger text-right small mt-1">{{ errors.first('startDate') }}</p>
               </div>
             </div>
@@ -56,12 +66,21 @@
                 <select class="form-control" v-model="bill.repeats" name="repeats" id="repeats" required v-validate>
                   <option v-for="period in periodicity" :key="period.name" :value="period.name">{{ period.label }}</option>
                 </select>
+                <p v-show="errors.has('repeats')" class="text-right text-danger small mt-1">{{ errors.first('repeats') }}</p>
               </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row" v-show="bill.repeats !== 'ONCE_OFF'">
               <label for="endDate" class="col-sm-2">Ends</label>
               <div class="col-sm-10">
-                <input v-model="bill.endDate" type="date" name="endDate" id="endDate" v-validate class="form-control" placeholder="Ends">
+                <datepicker
+                  v-model="bill.endDate"
+                  name="endDate"
+                  id="endDate"
+                  v-validate
+                  input-class="form-control"
+                  format="dd/MM/yyyy"
+                  placeholder="Can be blank">
+                </datepicker>
               </div>
             </div>
             <button type="submit" class="btn btn-primary btn-sm">Add</button>
@@ -75,6 +94,7 @@
 <script>
 
 import dayjs from 'dayjs'
+import Datepicker from 'vuejs-datepicker'
 import { mapGetters } from 'vuex'
 
 const initialData = {
@@ -95,6 +115,7 @@ export default {
     categories: 'getCategories',
     periodicity: 'getRepeats'
   }),
+  components: { Datepicker },
   props: {
     show: {
       type: Boolean,
