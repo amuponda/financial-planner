@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div :class="['container', {'modal-open': showModal}]">
     <div class="row mt-5">
       <div class="col-md-4">
         <!-- bills summary -->
@@ -77,6 +77,7 @@ export default {
       return dayjs(value).format('DD/MM/YYYY')
     },
     enumPrettify (value, enums) {
+      if (!enums) return value
       let pretty = enums.find(e => e.name === value)
       return pretty ? pretty.label : value
     }
