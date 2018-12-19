@@ -32,6 +32,18 @@
         <div class="card">
           <div class="card-body">
             <div class="card-title">Bills</div>
+            <table v-if="bills">
+              <thead>
+              <tr>
+                <th>Name</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="bill in bills" :key="bill.id">
+                <td v-text="bill.name"></td>
+              </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -50,9 +62,16 @@ export default {
   name: 'Bills',
   mixins: [modalMixin],
   computed: mapGetters({
-    accounts: 'getAccounts'
+    accounts: 'getAccounts',
+    bills: 'getBills',
+    isInitBills: 'isInitBills'
   }),
-  components: { CreateBillModal }
+  components: { CreateBillModal },
+  created () {
+    if (!this.isInitBills) {
+      this.$store.dispatch('fetchBills')
+    }
+  }
 }
 </script>
 

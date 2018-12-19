@@ -1,6 +1,7 @@
 import axios from '@/http'
 import {
   ADD_BILL,
+  FETCH_BILLS,
   INIT_CATEGORIES,
   INIT_REGULARITIES
 } from './mutation-types'
@@ -18,6 +19,17 @@ export function addBill ({ commit }, bill) {
         reject(reason)
       })
   })
+}
+
+export function fetchBills ({ commit, dispatch }) {
+  axios.get('/api/bills').then(response => {
+    commit(FETCH_BILLS, response.data)
+  })
+    .catch(reason => {
+      console.error(reason.response.data.message)
+      let error = 'Failed to load your current list of bills'
+      dispatch('addAlert', { text: error, type: 'danger' })
+    })
 }
 
 export function fetchCategories ({ commit, dispatch }) {
