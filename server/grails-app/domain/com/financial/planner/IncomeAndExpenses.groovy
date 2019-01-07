@@ -9,6 +9,7 @@ class IncomeAndExpenses {
 
     Date startDate
     Date endDate
+    Date nextDue
     String name
     BigDecimal amount
     @BindUsing({obj, source ->

@@ -20,6 +20,7 @@ class IncomeAndExpensesController extends RestfulController<IncomeAndExpenses> {
     @Override
     def create() {
         IncomeAndExpenses iae = new IncomeAndExpenses(params)
+        iae.nextDue = iae.startDate
         if (iae.hasErrors()) {
             respond iae.errors
         }
