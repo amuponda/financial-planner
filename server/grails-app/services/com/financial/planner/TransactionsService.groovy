@@ -1,7 +1,5 @@
-package financial.planner
+package com.financial.planner
 
-import com.financial.planner.IncomeAndExpenses
-import com.financial.planner.Transaction
 import com.financial.planner.enums.Type
 import grails.gorm.transactions.Transactional
 
