@@ -29,6 +29,7 @@ class IncomeAndExpenses {
 
     static constraints = {
         endDate nullable: true
-        amount min: 0.0g
+        nextDue nullable: true
+        amount min: 0.01g
     }
 }

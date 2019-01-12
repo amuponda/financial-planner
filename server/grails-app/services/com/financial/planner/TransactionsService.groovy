@@ -12,7 +12,8 @@ class TransactionsService {
             Transaction transaction = new Transaction(date: iae.nextDue, account: iae.account)
             transaction.amount = iae.type == Type.INCOME ? iae.amount : -iae.amount
             transaction.save()
-            iae.nextDue = iae.repeats.getNextDue(iae.nextDue)
+            Date nextDue = iae.repeats.getNextDue(iae.nextDue)
+            iae.nextDue = iae.endDate ? (nextDue >= iae.endDate ? null : nextDue) : nextDue
             iae.save()
         }
     }

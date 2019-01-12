@@ -17,10 +17,13 @@ class TransactionsServiceSpec extends HibernateSpec implements ServiceUnitTest<T
         Date now = new Date().clearTime()
         User user = build(User)
         Account account = build(Account, user: user)
+
         IncomeAndExpenses income = build(IncomeAndExpenses, account: account, startDate: now, nextDue: now,
                 type: 'INCOME', amount: 20.0g, repeats: 'WEEKLY')
         IncomeAndExpenses expense = build(IncomeAndExpenses, account: account, startDate: now-1, nextDue: now-1,
                 type: 'EXPENSE', amount: 5.0g, repeats: 'FORTNIGHTLY')
+        IncomeAndExpenses lastBillPayment = build(IncomeAndExpenses, account: account, startDate: now-14, nextDue: now,
+                endDate: now, type: 'EXPENSE', amount: 6.0g, repeats: 'FORTNIGHTLY')
         build(IncomeAndExpenses, account: account, startDate: now+1, nextDue: now+1)
 
         when: "we attempt to create transactions for yesterday and today's IaEs"
@@ -28,9 +31,10 @@ class TransactionsServiceSpec extends HibernateSpec implements ServiceUnitTest<T
         List<Transaction> transactions = Transaction.getAll()
 
         then: "New transactions should be added to the DB"
-        transactions.size() == 2
-        transactions.amount == [20, -5]
+        transactions.size() == 3
+        transactions.amount == [20, -5, -6]
         income.nextDue == income.repeats.getNextDue(now)
         expense.nextDue == expense.repeats.getNextDue(now-1)
+        lastBillPayment.nextDue == null
     }
 }
