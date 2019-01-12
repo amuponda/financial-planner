@@ -7,10 +7,8 @@ import groovy.util.logging.Slf4j
 import org.quartz.JobExecutionContext
 import org.quartz.JobExecutionException
 
+
 import static org.quartz.DateBuilder.newDateInTimezone
-import static org.quartz.DateBuilder.todayAt
-import static org.quartz.DateBuilder.tomorrowAt
-import static org.quartz.DateBuilder.translateTime
 
 @CompileStatic
 @Slf4j
@@ -19,7 +17,7 @@ class DailyTransactionsJobService implements SchwartzJob {
 	final int HOUR = 23
 	final int MINUTE = 55
 	final int SECONDS = 0
-	final TimeZone timeZone = TimeZone.getTimeZone('GMT-12:00')
+	final TimeZone timeZone = TimeZone.getTimeZone('Etc/GMT+14')
 
 	TransactionsService transactionsService
 
@@ -29,10 +27,11 @@ class DailyTransactionsJobService implements SchwartzJob {
 	}
 
 	Date dailyDate() {
-		Date startAt = translateTime(todayAt(HOUR, MINUTE, SECONDS), TimeZone.getDefault(), timeZone)
+		Date startAt = newDateInTimezone(timeZone).atHourMinuteAndSecond(HOUR, MINUTE, SECONDS).build()
 		if (startAt.before(newDateInTimezone(timeZone).build())) {
-			return translateTime(tomorrowAt(HOUR, MINUTE, SECONDS), TimeZone.getDefault(), timeZone)
+			startAt += 1
 		}
+		log.info("Trigger start date set to ${startAt}")
 		startAt
 	}
 
@@ -42,13 +41,5 @@ class DailyTransactionsJobService implements SchwartzJob {
 				.intervalInDays(1)
 				.timeZone(timeZone)
 				.build()
-
-		/* Cron format */
-		/*
-		triggers << factory('daily job to create transactions @ 23:55')
-				.cronSchedule('0 55 23 1/1 * ?')
-				.timeZone(timeZone)
-				.build()
-				*/
 	}
 }
