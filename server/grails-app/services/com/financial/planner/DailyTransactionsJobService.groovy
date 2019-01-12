@@ -10,6 +10,10 @@ import org.quartz.JobExecutionException
 
 import static org.quartz.DateBuilder.newDateInTimezone
 
+/**
+ * The timezone furthest behind is chosen such that no bills are forgotten when creating transactions
+ * And that a bill for a transaction is created no more than 24hrs after it is due
+ */
 @CompileStatic
 @Slf4j
 class DailyTransactionsJobService implements SchwartzJob {

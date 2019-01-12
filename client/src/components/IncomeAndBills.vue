@@ -5,7 +5,7 @@
         <!-- bills summary -->
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Summary</h5>
+            <h5 class="card-title">Bill Summary</h5>
             <div>
               <strong>Monthly Total:&nbsp;</strong>
               <strong>$0.00</strong><br>
@@ -17,28 +17,45 @@
               <strong>$0.00</strong>
             </div>
             <div class="mt-3">
-              <button type="button" class="btn btn-primary btn-sm" @click="toggleModal">Add Bill</button>
+              <button type="button" class="btn btn-primary btn-sm" @click="addIncomeOrExpense('EXPENSE')">Add Bill</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Income Summary</h5>
+            <div>
+              <strong>Monthly Total:&nbsp;</strong>
+              <strong>$0.00</strong><br>
+
+              <strong>Month To Date:&nbsp;</strong>
+              <strong>$0.00</strong><br>
+
+              <strong>Month Remaining:&nbsp;</strong>
+              <strong>$0.00</strong>
+            </div>
+            <div class="mt-3">
+              <button type="button" class="btn btn-primary btn-sm" @click="addIncomeOrExpense('INCOME')">Add Income</button>
             </div>
           </div>
         </div>
+
       </div>
 
-      <!--Bills list -->
+      <!--IaE list -->
       <div class="col-md-8">
         <div class="card">
           <div class="card-body table-responsive">
-            <h5 class="card-title">Bills</h5>
-            <table v-if="bills" class="table table-striped table-sm">
+            <h5 class="card-title">Income and Expense</h5>
+            <table v-if="iae" class="table table-striped table-sm">
               <thead>
               <tr>
                 <th>Since</th>
                 <th>Name</th>
-                <th>Amount</th>
+                <th>Amount</TH>
                 <th>Category</th>
               </tr>
               </thead>
               <tbody>
-              <tr v-for="bill in bills" :key="bill.id">
+              <tr v-for="bill in iae" :key="bill.id">
                 <td>{{ bill.startDate | date }}</td>
                 <td v-text="bill.name"></td>
                 <td>{{ bill.amount | currency }}</td>
@@ -51,26 +68,31 @@
       </div>
     </div>
 
-    <create-bill-modal :accounts="accounts" :show="showModal" @on-close="toggleModal"></create-bill-modal>
+    <create-iae-modal :accounts="accounts" :show="showModal" :type="type" @on-close="hideModal"></create-iae-modal>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import CreateBillModal from './CreateBillModal'
+import CreateIaeModal from './CreateIaeModal'
 import modalMixin from '../mixins/ModalMixin'
 import dayjs from 'dayjs'
 
 export default {
   name: 'Bills',
+  data () {
+    return {
+      type: null
+    }
+  },
   mixins: [modalMixin],
   computed: mapGetters({
     accounts: 'getAccounts',
-    bills: 'getBills',
-    isInitBills: 'isInitBills',
+    iae: 'getIae',
+    isInitIae: 'isInitIae',
     categories: 'getCategories'
   }),
-  components: { CreateBillModal },
+  components: { CreateIaeModal },
   filters: {
     date (value) {
       if (!value) return '-'
@@ -82,9 +104,19 @@ export default {
       return pretty ? pretty.label : value
     }
   },
+  methods: {
+    addIncomeOrExpense (type) {
+      this.type = type
+      this.toggleModal()
+    },
+    hideModal () {
+      this.type = null
+      this.toggleModal()
+    }
+  },
   created () {
-    if (!this.isInitBills) {
-      this.$store.dispatch('fetchBills')
+    if (!this.isInitIae) {
+      this.$store.dispatch('fetchIncomeAndExpenditure')
     }
   }
 }

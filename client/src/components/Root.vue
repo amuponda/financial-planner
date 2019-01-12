@@ -17,10 +17,7 @@
             <a class="nav-link" href="#">Analyze</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Income</a>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/bills">Bills</router-link>
+            <router-link class="nav-link" to="/income-and-bills">Income and Bills</router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" @click.prevent="signOut">Sign out</a>

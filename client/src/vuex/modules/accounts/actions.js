@@ -8,7 +8,7 @@ import {
 
 export function addBill ({ commit }, bill) {
   return new Promise((resolve, reject) => {
-    axios.post('/api/accounts/bills/create', {}, {
+    axios.post('/api/accounts/iae/create', {}, {
       params: bill
     })
       .then(response => {
@@ -21,8 +21,8 @@ export function addBill ({ commit }, bill) {
   })
 }
 
-export function fetchBills ({ commit, dispatch }) {
-  axios.get('/api/bills').then(response => {
+export function fetchIncomeAndExpenditure ({ commit, dispatch }) {
+  axios.get('/api/iae').then(response => {
     commit(FETCH_BILLS, response.data)
   })
     .catch(reason => {

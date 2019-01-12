@@ -9,19 +9,19 @@ import * as actions from './actions'
 import * as getters from './getters'
 
 const initialState = {
-  bills: [],
-  initializedBills: false,
+  iae: [],
+  initializedIae: false,
   categories: null,
   repeats: null
 }
 
 const mutations = {
   [ADD_BILL] (state, bill) {
-    state.bills.push(bill)
+    state.iae.push(bill)
   },
   [FETCH_BILLS] (state, bills) {
-    state.bills = bills
-    state.initializedBills = true
+    state.iae = bills
+    state.initializedIae = true
   },
   [INIT_CATEGORIES] (state, categories) {
     state.categories = categories

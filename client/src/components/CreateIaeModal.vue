@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Add Bill</h5>
+          <h5 class="modal-title">{{ modalHeader }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -99,7 +99,6 @@ import { mapGetters } from 'vuex'
 
 const initialData = {
   bill: {
-    type: 'EXPENSE',
     account: null,
     name: null,
     amount: null,
@@ -111,10 +110,15 @@ const initialData = {
 
 export default {
   name: 'CreateBillModal',
-  computed: mapGetters({
-    categories: 'getCategories',
-    periodicity: 'getRepeats'
-  }),
+  computed: {
+    ...mapGetters({
+      categories: 'getCategories',
+      periodicity: 'getRepeats'
+    }),
+    modalHeader () {
+      return this.type === 'INCOME' ? 'Add Income' : 'Add Bill'
+    }
+  },
   components: { Datepicker },
   props: {
     show: {
@@ -124,6 +128,12 @@ export default {
     accounts: {
       type: Array,
       required: true
+    },
+    type: {
+      type: String,
+      validator (value) {
+        return ['INCOME', 'EXPENSE'].indexOf(value) !== -1
+      }
     }
   },
   data () {
@@ -131,10 +141,16 @@ export default {
       bill: Object.assign({}, initialData.bill)
     }
   },
+  watch: {
+    show (val) {
+      if (val && this.type === 'INCOME' && !this.bill.category) {
+        this.bill.category = this.categories.find(cat => cat.name === this.type).name
+      }
+    }
+  },
   methods: {
     closeModal () {
-      this.bill = Object.assign({}, initialData.bill)
-      this.errors.clear()
+      this.resetForm()
       this.$emit('on-close')
     },
     submit () {
@@ -152,15 +168,20 @@ export default {
       params.append('repeats', this.bill.repeats)
       params.append('startDate', dayjs().format('DD/MM/YYYY'))
       params.append('amount', this.bill.amount)
-      params.append('type', this.bill.type)
+      params.append('type', this.type)
 
       this.$store.dispatch('addBill', params).then(result => {
-        console.log('done')
+        this.resetForm()
       })
         .catch(reason => {
           // handle backend errors here
           console.error(JSON.stringify(reason))
         })
+    },
+    resetForm () {
+      this.bill = Object.assign({}, initialData.bill)
+      this.errors.clear()
+      this.$validator.reset()
     }
   }
 }

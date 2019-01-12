@@ -82,8 +82,13 @@ enum Repeat {
 
     private String label
 
+
     Repeat(String label) {
         this.label = label
+    }
+
+    String getLabel() {
+        this.label
     }
 
     abstract Date getNextDue(Date currentDueDate)

@@ -1,6 +1,5 @@
 package com.financial.planner
 
-import com.financial.planner.enums.Type
 import grails.plugin.springsecurity.annotation.Secured
 import grails.rest.*
 import org.springframework.context.i18n.LocaleContextHolder
@@ -30,8 +29,8 @@ class IncomeAndExpensesController extends RestfulController<IncomeAndExpenses> {
         }
     }
 
-    def getBills() {
-        List bills = IncomeAndExpenses.findAllByTypeAndAccountInList(Type.EXPENSE, Account.findAllByUser(springSecurityService.currentUser))
+    def getIncomeAndExpenses/**/() {
+        List bills = IncomeAndExpenses.findAllByAccountInList(Account.findAllByUser(springSecurityService.currentUser))
         respond(bills)
     }
 

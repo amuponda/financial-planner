@@ -4,7 +4,7 @@ import Root from '@/components/Root'
 import Signup from '@/components/Signup'
 import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
-import Bills from '@/components/Bills'
+import IaE from '@/components/IncomeAndBills'
 
 import tokenService from '../mixins/TokenService'
 
@@ -36,9 +36,9 @@ export default new Router({
           component: Dashboard
         },
         {
-          path: '/bills',
-          name: 'bills',
-          component: Bills
+          path: '/income-and-bills',
+          name: 'iae',
+          component: IaE
         }
       ]
     }
