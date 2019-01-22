@@ -4,5 +4,5 @@ class Transaction {
     Date date
     BigDecimal amount
 
-    static belongsTo = [account: Account]
+    static belongsTo = [bill: IncomeAndExpenses]
 }
