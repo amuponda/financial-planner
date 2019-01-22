@@ -24,6 +24,10 @@ export function addBill ({ commit }, bill) {
 export function fetchIncomeAndExpenditure ({ commit, dispatch }) {
   axios.get('/api/iae').then(response => {
     commit(FETCH_BILLS, response.data)
+    if (response.data.length === 0) {
+      let info = 'Add some bills to your account(s) to track your spending.'
+      dispatch('addAlert', { text: info, type: 'info' })
+    }
   })
     .catch(reason => {
       console.error(reason.response.data.message)

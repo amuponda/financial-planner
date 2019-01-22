@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="message in messages" :class="['alert', statusClasses[message.type]]" :key="message.text" role="alert">
-      <p>{{ message.text }}</p>
+      <p class="text-center">{{ message.text }}</p>
     </div>
   </div>
 </template>
@@ -15,7 +15,8 @@ export default {
     return {
       statusClasses: {
         success: 'alert-success',
-        danger: 'alert-danger'
+        danger: 'alert-danger',
+        info: 'alert-info'
       }
     }
   },

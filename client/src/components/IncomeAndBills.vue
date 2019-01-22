@@ -44,25 +44,28 @@
       <div class="col-md-8">
         <div class="card">
           <div class="card-body table-responsive">
-            <h5 class="card-title">Income and Expense</h5>
-            <table v-if="iae" class="table table-striped table-sm">
+            <h5 class="card-title">Income and Expenses  <span v-if="!isBills" class="badge badge-info">No Expenses</span></h5>
+            <table v-if="isBills" class="table table-striped table-sm">
               <thead>
               <tr>
                 <th>Since</th>
                 <th>Name</th>
-                <th>Amount</TH>
                 <th>Category</th>
+                <th>Amount</TH>
               </tr>
               </thead>
               <tbody>
               <tr v-for="bill in iae" :key="bill.id">
                 <td>{{ bill.startDate | date }}</td>
-                <td v-text="bill.name"></td>
-                <td>{{ bill.amount | currency }}</td>
+                <td><router-link :to="{ name: 'bill', params: { id: bill.id }}">{{ bill.name }}</router-link></td>
                 <td>{{ bill.category | enumPrettify(categories) }}</td>
+                <td>{{ bill.amount | currency }}</td>
               </tr>
               </tbody>
             </table>
+            <!--
+            <span v-else class="badge badge-info">You do not currently have any bill or income setup</span>
+            -->
           </div>
         </div>
       </div>
@@ -86,12 +89,17 @@ export default {
     }
   },
   mixins: [modalMixin],
-  computed: mapGetters({
-    accounts: 'getAccounts',
-    iae: 'getIae',
-    isInitIae: 'isInitIae',
-    categories: 'getCategories'
-  }),
+  computed: {
+    ...mapGetters({
+      accounts: 'getAccounts',
+      iae: 'getIae',
+      isInitIae: 'isInitIae',
+      categories: 'getCategories'
+    }),
+    isBills () {
+      return this.iae.length > 0
+    }
+  },
   components: { CreateIaeModal },
   filters: {
     date (value) {

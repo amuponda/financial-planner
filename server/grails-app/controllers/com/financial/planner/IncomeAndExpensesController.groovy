@@ -29,8 +29,9 @@ class IncomeAndExpensesController extends RestfulController<IncomeAndExpenses> {
         }
     }
 
-    def getIncomeAndExpenses/**/() {
-        List bills = IncomeAndExpenses.findAllByAccountInList(Account.findAllByUser(springSecurityService.currentUser))
+    def getIncomeAndExpenses() {
+        List<Account> accounts = Account.findAllByUser(springSecurityService.currentUser)
+        List bills = accounts ? IncomeAndExpenses.findAllByAccountInList(accounts) : []
         respond(bills)
     }
 

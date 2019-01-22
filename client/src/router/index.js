@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Root from '@/components/Root'
-import Signup from '@/components/Signup'
-import Login from '@/components/Login'
-import Dashboard from '@/components/Dashboard'
-import IaE from '@/components/IncomeAndBills'
-
+import Root from '../components/Root'
+import Signup from '../components/Signup'
+import Login from '../components/Login'
+import Dashboard from '../components/Dashboard'
+import IaE from '../components/IncomeAndBills'
+import Bill from '../components/Bill'
 import tokenService from '../mixins/TokenService'
 
 Vue.use(Router)
@@ -39,6 +39,11 @@ export default new Router({
           path: '/income-and-bills',
           name: 'iae',
           component: IaE
+        },
+        {
+          path: '/income-and-bills/:id',
+          name: 'bill',
+          component: Bill
         }
       ]
     }

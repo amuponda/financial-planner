@@ -29,10 +29,18 @@ export function obliterateUser ({ commit }) {
   commit(DESTROY_USER)
 }
 
-export function fetchAccounts ({ commit }) {
+export function fetchAccounts ({ commit, dispatch }) {
   http.get(GET_ACCOUNTS_URL)
     .then(response => {
       commit(FETCH_ACCOUNTS, response.data)
+      if (response.data.length === 0) {
+        let message = 'You need to setup a bank account or two to make full use of the app.'
+        dispatch('addAlert', { text: message, type: 'info' })
+      }
+    })
+    .catch(reason => {
+      let error = 'Failed to load your bank accounts'
+      dispatch('addAlert', { text: error, type: 'danger' })
     })
 }
 
