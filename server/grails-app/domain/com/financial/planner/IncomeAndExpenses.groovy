@@ -12,16 +12,22 @@ class IncomeAndExpenses {
     Date nextDue
     String name
     BigDecimal amount
+
     @BindUsing({obj, source ->
-        Repeat.valueOf(source['repeats'])
+        def rep = source['repeats']
+        rep instanceof Repeat ? rep : Repeat.valueOf(rep)
     })
     Repeat repeats
+
     @BindUsing({obj, source ->
-        Category.valueOf(source['category'])
+        def cat = source['category']
+        cat instanceof Category ? cat : Category.valueOf(cat)
     })
     Category category
+
     @BindUsing({obj, source ->
-        Type.valueOf(source['type'])
+        def type = source['type']
+        type instanceof Type ? type : Type.valueOf(source['type'])
     })
     Type type
 
