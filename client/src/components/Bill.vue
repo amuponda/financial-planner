@@ -8,14 +8,14 @@
             <h5>Bill Summary</h5>
             <div>
               <strong>Amount:&nbsp;</strong>
-              <strong>$0.00&nbsp;</strong>
+              <strong>{{bill.amount | currency }}&nbsp;</strong>
               <strong><button class="btn btn-primary btn-sm">Edit</button></strong><br>
 
               <strong>Repeats:&nbsp;</strong>
-              <strong>WEEKLY</strong><br>
+              <strong>{{ bill.repeats }}</strong><br>
 
               <strong>Next Due:&nbsp;</strong>
-              <strong>12/01/2020</strong><br>
+              <strong>{{ bill.nextDue }}</strong><br>
             </div>
             <div>
               <strong>This FY:&nbsp;</strong>
@@ -30,7 +30,9 @@
 
       <!-- graph + transactions -->
       <div class="col-md-8">
-        <div></div>
+        <div>
+          <h3 v-text="bill.name" class="text-center"></h3>
+        </div>
         <div class="card">
           <div class="card-body table-responsive">
             <h5 class="card-title">Recent Transactions</h5>
@@ -44,11 +46,11 @@
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+              <tr v-for="trans in bill.transactions" :key="trans.id">
+                <td>{{ trans.date }}</td>
+                <td>{{ bill.name }}</td>
+                <td>{{ bill.category }}</td>
+                <td>{{ trans.amount | currency }}</td>
               </tr>
               </tbody>
             </table>
@@ -61,7 +63,39 @@
 
 <script>
 export default {
-  name: 'Bill'
+  name: 'Bill',
+  data () {
+    return {
+      bill: {}
+    }
+  },
+  created () {
+    this.$store.dispatch('getBill', this.$route.params.id)
+      .then(response => {
+        this.bill = response.bill
+        this.bill.transactions = response.transactions
+      })
+      .catch(reason => {
+        console.error(JSON.stringify(reason))
+        if (reason.response && reason.response.status === 404) {
+          this.$router.push({ name: 'notFound' })
+        }
+      })
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.$store.dispatch('getBill', this.$route.params.id)
+      .then(response => {
+        this.bill = response.data.bill
+        this.bill.transactions = response.data.transactions
+        next()
+      })
+      .catch(reason => {
+        console.error(JSON.stringify(reason))
+        if (reason.response && reason.response.status === 404) {
+          next({ name: 'notFound' })
+        }
+      })
+  }
 }
 </script>
 

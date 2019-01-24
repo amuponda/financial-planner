@@ -6,24 +6,22 @@ import grails.test.hibernate.HibernateSpec
 import grails.testing.web.controllers.ControllerUnitTest
 import groovy.util.logging.Slf4j
 import org.springframework.context.MessageSource
-import spock.lang.Shared
 import spock.lang.Unroll
 
 @Slf4j
 class IncomeAndExpensesControllerSpec extends HibernateSpec implements ControllerUnitTest<IncomeAndExpensesController>,  TestDataBuilder {
-    @Shared Account notMine
     List<Class> getDomainClasses() {
-        [Account]
+        [Account, Transaction]
     }
 
     @Unroll("#testCase")
     void "add a new bill to the database"() {
         setup:
         User user = build(User)
-        Account account = build(Account, user: user, name: 'ING')
+        build(Account, user: user, name: 'ING')
 
         User notMe = build(User, username: 'notMe@test.com')
-        notMine = build(Account, user: notMe, name: 'CBA')
+        build(Account, user: notMe, name: 'CBA')
 
         controller.springSecurityService = Stub(SpringSecurityService) {
             getCurrentUser() >> user
@@ -47,5 +45,44 @@ class IncomeAndExpensesControllerSpec extends HibernateSpec implements Controlle
         accountId   || responseStatus   || testCase
         1           || 201              || "Create bill on one of your accounts"
         2           || 403              || "You attempt to create a new bill for an account you don't own"
+    }
+
+    void "request a bill"() {
+        setup:
+        User user = build(User)
+        Account account = build(Account, user: user)
+        IncomeAndExpenses bill = build(IncomeAndExpenses, account: account)
+        build(Transaction, bill: bill)
+
+        controller.springSecurityService = Stub(SpringSecurityService) {
+            getCurrentUser() >> user
+        }
+
+        when: "Request a bill"
+        request.method = 'GET'
+        params.id = bill.id
+        controller.getBill()
+
+        then:
+        response.status == 200
+        response.json.bill.id == bill.id
+        response.json.transactions.size() == 1
+    }
+
+    void "requesting a bill that does not exist"() {
+        setup:
+        User user = build(User)
+
+        controller.springSecurityService = Stub(SpringSecurityService) {
+            getCurrentUser() >> user
+        }
+
+        when: "Request a bill that does not exist"
+        request.method = 'GET'
+        params.id = 200
+        controller.getBill()
+
+        then: "not found"
+        response.status == 404
     }
 }

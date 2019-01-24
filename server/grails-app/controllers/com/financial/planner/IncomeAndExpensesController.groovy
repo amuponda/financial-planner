@@ -35,6 +35,18 @@ class IncomeAndExpensesController extends RestfulController<IncomeAndExpenses> {
         respond(bills)
     }
 
+    def getBill(Long id) {
+        IncomeAndExpenses bill = IncomeAndExpenses.read(id)
+        if (bill == null) {
+            super.notFound()
+            return
+        }
+        withOwnAccount(bill.account) {
+            List<Transaction> transactions = Transaction.findAllByBill(bill)
+            respond([bill: bill, transactions: transactions])
+        }
+    }
+
     def withOwnAccount(Account account, closure) {
         if (account.user == springSecurityService.currentUser) {
             closure()

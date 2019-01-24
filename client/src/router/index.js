@@ -6,6 +6,7 @@ import Login from '../components/Login'
 import Dashboard from '../components/Dashboard'
 import IaE from '../components/IncomeAndBills'
 import Bill from '../components/Bill'
+import NotFound from '../components/NotFound'
 import tokenService from '../mixins/TokenService'
 
 Vue.use(Router)
@@ -44,6 +45,11 @@ export default new Router({
           path: '/income-and-bills/:id',
           name: 'bill',
           component: Bill
+        },
+        {
+          path: '/not-found',
+          name: 'notFound',
+          component: NotFound
         }
       ]
     }

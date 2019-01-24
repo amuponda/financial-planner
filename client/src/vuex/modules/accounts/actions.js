@@ -8,13 +8,24 @@ import {
 
 export function addBill ({ commit }, bill) {
   return new Promise((resolve, reject) => {
-    axios.post('/api/accounts/iae/create', {}, {
+    axios.post('/api/iae/create', {}, {
       params: bill
     })
       .then(response => {
         commit(ADD_BILL, response.data)
         resolve()
       })
+      .catch(reason => {
+        reject(reason)
+      })
+  })
+}
+
+export function getBill ({ commit }, billId) {
+  return new Promise((resolve, reject) => {
+    axios.get(`/api/iae/${billId}`).then(response => {
+      resolve(response.data)
+    })
       .catch(reason => {
         reject(reason)
       })

@@ -32,8 +32,7 @@
         <div class="card mt-3">
           <div class="card-body">
             <h5 class="card-title">Accounts</h5>
-            <button type="button" class="btn btn-primary btn-sm" @click="toggleModal">Add Account</button>
-            <table class="table table-sm mt-3">
+            <table v-if="accounts.length > 0" class="table table-sm mt-3">
               <tbody>
                 <tr v-for="account in accounts" :key="account.name">
                   <td>
@@ -45,6 +44,13 @@
                 </tr>
               </tbody>
             </table>
+            <div v-else>
+              <p>
+                <strong>No bank account setup</strong><br>
+                <span>Get started by adding a bank account</span>
+              </p>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" @click="toggleModal">Add Account</button>
           </div>
         </div>
       </div>
@@ -87,5 +93,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

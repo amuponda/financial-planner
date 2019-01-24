@@ -63,9 +63,6 @@
               </tr>
               </tbody>
             </table>
-            <!--
-            <span v-else class="badge badge-info">You do not currently have any bill or income setup</span>
-            -->
           </div>
         </div>
       </div>
