@@ -48,7 +48,7 @@ export default {
         if (result) {
           http.post(loginUrl, this.form)
             .then(response => {
-              sessionStorage.setItem('fp_token', response.data.access_token)
+              localStorage.setItem('fp_token', response.data.access_token)
               let originalUrl = this.$router.currentRoute.params.originalUrl
               this.$router.push(originalUrl ? { path: originalUrl } : { name: 'dashboard' })
             })
