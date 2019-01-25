@@ -69,31 +69,29 @@ export default {
       bill: {}
     }
   },
+  methods: {
+    setBill (response) {
+      this.bill = response.bill
+      this.bill.transactions = response.transactions
+    }
+  },
   created () {
     this.$store.dispatch('getBill', this.$route.params.id)
       .then(response => {
-        this.bill = response.bill
-        this.bill.transactions = response.transactions
+        this.setBill(response)
       })
       .catch(reason => {
         console.error(JSON.stringify(reason))
-        if (reason.response && reason.response.status === 404) {
-          this.$router.push({ name: 'notFound' })
-        }
       })
   },
   beforeRouteUpdate (to, from, next) {
     this.$store.dispatch('getBill', this.$route.params.id)
       .then(response => {
-        this.bill = response.data.bill
-        this.bill.transactions = response.data.transactions
+        this.setBill(response)
         next()
       })
       .catch(reason => {
         console.error(JSON.stringify(reason))
-        if (reason.response && reason.response.status === 404) {
-          next({ name: 'notFound' })
-        }
       })
   }
 }

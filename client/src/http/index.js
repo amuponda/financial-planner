@@ -24,6 +24,9 @@ http.interceptors.response.use(response => {
     tokenService.deleteToken()
     router.push({ name: 'login', params: { originalUrl: router.currentRoute.fullPath } })
   }
+  if (error.response.status === 404) {
+    router.push({ name: 'notFound' })
+  }
   return Promise.reject(error)
 })
 
