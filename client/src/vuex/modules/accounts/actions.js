@@ -2,6 +2,7 @@ import axios from '@/http'
 import {
   ADD_BILL,
   FETCH_BILLS,
+  FETCH_BILL,
   INIT_CATEGORIES,
   INIT_REGULARITIES
 } from './mutation-types'
@@ -24,7 +25,9 @@ export function addBill ({ commit }, bill) {
 export function getBill ({ commit }, billId) {
   return new Promise((resolve, reject) => {
     axios.get(`/api/iae/${billId}`).then(response => {
-      resolve(response.data)
+      let bill = response.data.bill; bill.transactions = response.data.transactions
+      commit(FETCH_BILL, bill)
+      resolve()
     })
       .catch(reason => {
         reject(reason)

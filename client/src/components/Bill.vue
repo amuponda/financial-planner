@@ -62,36 +62,30 @@
 </template>
 
 <script>
+import store from '../vuex/store'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Bill',
-  data () {
-    return {
-      bill: {}
-    }
-  },
-  methods: {
-    setBill (response) {
-      this.bill = response.bill
-      this.bill.transactions = response.transactions
-    }
-  },
+  computed: mapGetters({
+    bill: 'getCurrentBill'
+  }),
   created () {
-    this.$store.dispatch('getBill', this.$route.params.id)
-      .then(response => {
-        this.setBill(response)
-      })
+  },
+  beforeRouteEnter (to, from, next) {
+    store.dispatch('getBill', to.params.id).then(() => {
+      next()
+    })
       .catch(reason => {
-        console.error(JSON.stringify(reason))
+        console.error(JSON.stringify(reason.response.data))
       })
   },
   beforeRouteUpdate (to, from, next) {
-    this.$store.dispatch('getBill', this.$route.params.id)
-      .then(response => {
-        this.setBill(response)
-        next()
-      })
+    this.$store.dispatch('getBill', to.params.id).then(() => {
+      next()
+    })
       .catch(reason => {
-        console.error(JSON.stringify(reason))
+        console.error(JSON.stringify(reason.response.data))
       })
   }
 }

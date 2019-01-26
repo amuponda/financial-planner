@@ -25,7 +25,7 @@ http.interceptors.response.use(response => {
     router.push({ name: 'login', params: { originalUrl: router.currentRoute.fullPath } })
   }
   if (error.response.status === 404) {
-    router.push({ name: 'notFound' })
+    router.push({ name: 'notFound', params: { '0': location.hash.substring(2) } })
   }
   return Promise.reject(error)
 })

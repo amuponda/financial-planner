@@ -1,6 +1,7 @@
 import {
   ADD_BILL,
   FETCH_BILLS,
+  FETCH_BILL,
   INIT_CATEGORIES,
   INIT_REGULARITIES
 } from './mutation-types'
@@ -10,6 +11,7 @@ import * as getters from './getters'
 
 const initialState = {
   iae: [],
+  currentBill: null,
   initializedIae: false,
   categories: null,
   repeats: null
@@ -22,6 +24,9 @@ const mutations = {
   [FETCH_BILLS] (state, bills) {
     state.iae = bills
     state.initializedIae = true
+  },
+  [FETCH_BILL] (state, bill) {
+    state.currentBill = bill
   },
   [INIT_CATEGORIES] (state, categories) {
     state.categories = categories

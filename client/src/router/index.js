@@ -47,7 +47,7 @@ export default new Router({
           component: Bill
         },
         {
-          path: '/not-found',
+          path: '*',
           name: 'notFound',
           component: NotFound
         }
