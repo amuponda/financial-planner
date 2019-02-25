@@ -7,6 +7,7 @@ import store from './vuex/store'
 import * as uiv from 'uiv'
 import VeeValidate from 'vee-validate'
 import Vue2Filters from 'vue2-filters'
+import filters from './filters'
 import './assets/css/bootstrap.css'
 
 Vue.config.productionTip = false
@@ -14,6 +15,7 @@ Vue.config.productionTip = false
 Vue.use(uiv)
 Vue.use(VeeValidate)
 Vue.use(Vue2Filters)
+Vue.use(filters)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

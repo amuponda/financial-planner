@@ -76,7 +76,6 @@
 import { mapGetters } from 'vuex'
 import CreateIaeModal from './CreateIaeModal'
 import modalMixin from '../mixins/ModalMixin'
-import dayjs from 'dayjs'
 
 export default {
   name: 'Bills',
@@ -98,17 +97,6 @@ export default {
     }
   },
   components: { CreateIaeModal },
-  filters: {
-    date (value) {
-      if (!value) return '-'
-      return dayjs(value).format('DD/MM/YYYY')
-    },
-    enumPrettify (value, enums) {
-      if (!enums) return value
-      let pretty = enums.find(e => e.name === value)
-      return pretty ? pretty.label : value
-    }
-  },
   methods: {
     addIncomeOrExpense (type) {
       this.type = type
