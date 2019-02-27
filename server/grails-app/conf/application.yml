@@ -107,3 +107,4 @@ environments:
             username: wqcri2ziqcll0su9
             password: 'wp3sk48ewah3h5sm'
             url: jdbc:mariadb://gmgcjwawatv599gq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/fc8du69f9ahfx84a
+            maximumPoolSize: 8
