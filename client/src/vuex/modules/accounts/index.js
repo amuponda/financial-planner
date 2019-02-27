@@ -1,5 +1,6 @@
 import {
   ADD_BILL,
+  UPDATE_BILL,
   FETCH_BILLS,
   FETCH_BILL,
   INIT_CATEGORIES,
@@ -26,6 +27,10 @@ const mutations = {
     state.initializedIae = true
   },
   [FETCH_BILL] (state, bill) {
+    state.currentBill = bill
+  },
+  [UPDATE_BILL] (state, bill) {
+    bill.transactions = state.currentBill.transactions
     state.currentBill = bill
   },
   [INIT_CATEGORIES] (state, categories) {

@@ -1,6 +1,7 @@
 import axios from '@/http'
 import {
   ADD_BILL,
+  UPDATE_BILL,
   FETCH_BILLS,
   FETCH_BILL,
   INIT_CATEGORIES,
@@ -30,6 +31,22 @@ export function getBill ({ commit }, billId) {
       resolve()
     })
       .catch(reason => {
+        reject(reason)
+      })
+  })
+}
+
+export function updateBill ({ commit, dispatch }, bill) {
+  return new Promise((resolve, reject) => {
+    axios.put(`/api/iae/${bill.id}`, bill).then(response => {
+      commit(UPDATE_BILL, response.data)
+      dispatch('addAlert', { text: 'Bill has been updated', type: 'success' })
+      resolve()
+    })
+      .catch(reason => {
+        console.error(reason.response.data.message)
+        let error = 'Unexpected error occurred. Failed to update bill'
+        dispatch('addAlert', { text: error, type: 'danger' })
         reject(reason)
       })
   })

@@ -2,7 +2,7 @@
 grails:
     profile: vue
     codegen:
-        defaultPackage: financial.planner
+        defaultPackage: com.financial.planner
     gorm:
         reactor:
             # Whether to translate GORM events into Reactor events

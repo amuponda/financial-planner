@@ -7,15 +7,23 @@
           <div class="card-body">
             <h5>Bill Summary</h5>
             <div>
-              <strong>Amount:&nbsp;</strong>
-              <strong>{{bill.amount | currency }}&nbsp;</strong>
-              <strong><button class="btn btn-primary btn-sm">Edit</button></strong><br>
+              <form v-if="isEdit" @submit="updateAmount">
+                <input v-model="newAmount" />
+                <button class="btn btn-primary btn-sm">Save</button>
+                <button class="btn btn-primary btn-sm" type="button" @click="toggleEdit(false)">Cancel</button>
+              </form>
+
+              <span v-else>
+                <strong>Amount:&nbsp;</strong>
+                <strong>{{ bill.amount | currency }}&nbsp;</strong>
+                <button class="btn btn-primary btn-sm" @click="toggleEdit(true)">Edit</button><br>
+              </span>
 
               <strong>Repeats:&nbsp;</strong>
-              <strong>{{ bill.repeats }}</strong><br>
+              <strong>{{ bill.repeats | enumPrettify(paymentPeriods) }}</strong><br>
 
               <strong>Next Due:&nbsp;</strong>
-              <strong>{{ bill.nextDue }}</strong><br>
+              <strong>{{ bill.nextDue | date }}</strong><br>
             </div>
             <div>
               <strong>This FY:&nbsp;</strong>
@@ -47,9 +55,9 @@
               </thead>
               <tbody>
               <tr v-for="trans in bill.transactions" :key="trans.id">
-                <td>{{ trans.date }}</td>
+                <td>{{ trans.date | date }}</td>
                 <td>{{ bill.name }}</td>
-                <td>{{ bill.category }}</td>
+                <td>{{ bill.category | enumPrettify(categories) }}</td>
                 <td>{{ trans.amount | currency }}</td>
               </tr>
               </tbody>
@@ -67,9 +75,30 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Bill',
+  data () {
+    return {
+      isEdit: false,
+      newAmount: null
+    }
+  },
   computed: mapGetters({
-    bill: 'getCurrentBill'
+    bill: 'getCurrentBill',
+    categories: 'getCategories',
+    paymentPeriods: 'getRepeats'
   }),
+  methods: {
+    toggleEdit (isOn) {
+      this.isEdit = isOn
+      this.newAmount = isOn ? this.bill.amount : null
+    },
+    updateAmount () {
+      let toUpdate = Object.assign({}, this.bill)
+      toUpdate.amount = this.newAmount
+      this.$store.dispatch('updateBill', toUpdate).then(() => {
+        this.toggleEdit(false)
+      })
+    }
+  },
   created () {
   },
   beforeRouteEnter (to, from, next) {

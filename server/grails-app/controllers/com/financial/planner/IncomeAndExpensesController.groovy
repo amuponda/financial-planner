@@ -29,6 +29,16 @@ class IncomeAndExpensesController extends RestfulController<IncomeAndExpenses> {
         }
     }
 
+    @Override
+    def update() {
+        println("${params}")
+        withBill(params.long('id')) { IncomeAndExpenses bill ->
+            withOwnAccount(bill.account) {
+                super.update()
+            }
+        }
+    }
+
     def getIncomeAndExpenses() {
         List<Account> accounts = Account.findAllByUser(springSecurityService.currentUser)
         List bills = accounts ? IncomeAndExpenses.findAllByAccountInList(accounts) : []
@@ -36,14 +46,21 @@ class IncomeAndExpensesController extends RestfulController<IncomeAndExpenses> {
     }
 
     def getBill(Long id) {
-        IncomeAndExpenses bill = IncomeAndExpenses.read(id)
+        withBill(id) { IncomeAndExpenses bill ->
+            withOwnAccount(bill.account) {
+                List<Transaction> transactions = Transaction.findAllByBill(bill)
+                respond([bill: bill, transactions: transactions])
+            }
+        }
+    }
+
+    def withBill(Long id, closure) {
+        IncomeAndExpenses bill = IncomeAndExpenses.get(id)
         if (bill == null) {
             super.notFound()
             return
-        }
-        withOwnAccount(bill.account) {
-            List<Transaction> transactions = Transaction.findAllByBill(bill)
-            respond([bill: bill, transactions: transactions])
+        } else {
+            closure(bill)
         }
     }
 
