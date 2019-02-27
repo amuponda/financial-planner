@@ -31,7 +31,6 @@ class IncomeAndExpensesController extends RestfulController<IncomeAndExpenses> {
 
     @Override
     def update() {
-        println("${params}")
         withBill(params.long('id')) { IncomeAndExpenses bill ->
             withOwnAccount(bill.account) {
                 super.update()
