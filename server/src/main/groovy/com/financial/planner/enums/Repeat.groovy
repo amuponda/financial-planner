@@ -47,6 +47,15 @@ enum Repeat {
             }
         }
     },
+    SAME_DAY_EACH_MONTH('Same day each month') {
+        @Override
+        Date getNextDue(Date currentNextDue) {
+            Calendar cal = Calendar.getInstance()
+            cal.setTime(currentNextDue)
+            cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 1)
+            cal.getTime()
+        }
+    },
     EVERY_2_MONTHS('Every 2 Months') {
         @Override
         Date getNextDue(Date currentNextDue) {
