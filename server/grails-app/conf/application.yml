@@ -73,6 +73,12 @@ grails:
     cors:
         enabled: true
 ---
+grails:
+    plugin:
+        databasemigration:
+            updateOnStart: true
+            updateOnStartFileName: changelog.groovy
+---
 hibernate:
     cache:
         queries: false
